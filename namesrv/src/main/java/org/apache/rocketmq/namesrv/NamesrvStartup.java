@@ -106,6 +106,9 @@ public class NamesrvStartup {
 
         MixAll.properties2Object(ServerUtil.commandLine2Properties(commandLine), namesrvConfig);
 
+        // 本地调试：设置ROCKETMQ_HOME参数，本地编译打包后的路径
+        namesrvConfig.setRocketmqHome("D:/hui_repository/rocketmq-annotated/distribution");
+
         if (null == namesrvConfig.getRocketmqHome()) {
             System.out.printf("Please set the %s variable in your environment to match the location of the RocketMQ installation%n", MixAll.ROCKETMQ_HOME_ENV);
             System.exit(-2);
