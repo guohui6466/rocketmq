@@ -234,9 +234,11 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
 
     /**
      * Send message to broker asynchronously.
+     * 向broker异步发送消息
      * </p>
      *
      * This method returns immediately. On sending completion, <code>sendCallback</code> will be executed.
+     * 调用这个方法会立即返回，消息发送完成会执行<code>sendCallback</code>中的回调方法
      * </p>
      *
      * Similar to {@link #send(Message)}, internal implementation would potentially retry up to

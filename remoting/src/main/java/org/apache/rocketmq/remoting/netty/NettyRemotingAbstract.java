@@ -68,7 +68,7 @@ public abstract class NettyRemotingAbstract {
     protected final Semaphore semaphoreAsync;
 
     /**
-     * This map caches all on-going requests.
+     * This map caches all on-going requests. 缓存所有在执行中的请求，通过opaque来区分
      */
     protected final ConcurrentMap<Integer /* opaque */, ResponseFuture> responseTable =
         new ConcurrentHashMap<Integer, ResponseFuture>(256);
@@ -82,6 +82,7 @@ public abstract class NettyRemotingAbstract {
 
     /**
      * Executor to feed netty events to user defined {@link ChannelEventListener}.
+     * 处理用户自定义事件
      */
     protected final NettyEventExecutor nettyEventExecutor = new NettyEventExecutor();
 
@@ -400,6 +401,17 @@ public abstract class NettyRemotingAbstract {
         }
     }
 
+    /**
+     * 异步调用
+     * @param channel
+     * @param request
+     * @param timeoutMillis
+     * @param invokeCallback
+     * @throws InterruptedException
+     * @throws RemotingTooMuchRequestException
+     * @throws RemotingTimeoutException
+     * @throws RemotingSendRequestException
+     */
     public void invokeAsyncImpl(final Channel channel, final RemotingCommand request, final long timeoutMillis,
         final InvokeCallback invokeCallback)
         throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException, RemotingSendRequestException {

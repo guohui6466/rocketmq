@@ -72,6 +72,7 @@ public class RemotingCommand {
     private int code;
     private LanguageCode language = LanguageCode.JAVA;
     private int version = 0;
+    // 请求的唯一标识
     private int opaque = requestId.getAndIncrement();
     private int flag = 0;
     private String remark;
@@ -211,9 +212,13 @@ public class RemotingCommand {
     public static byte[] markProtocolType(int source, SerializeType type) {
         byte[] result = new byte[4];
 
+        // 第一个字节标识协议类型
         result[0] = type.getCode();
+        // 32位右移16位与11111111，高8位和低16位变成0 -> [16-24]
         result[1] = (byte) ((source >> 16) & 0xFF);
+        // 32位右移8位与11111111，高16位和低8位变成0 -> [8-16]
         result[2] = (byte) ((source >> 8) & 0xFF);
+        // 32位与11111111，高24位变成0，取低8位 -> [0-8]
         result[3] = (byte) (source & 0xFF);
         return result;
     }
